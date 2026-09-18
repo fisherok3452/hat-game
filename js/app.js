@@ -10,8 +10,8 @@ let timer=null;
 function fresh(){return {screen:"home",playersCount:4,teamCount:2,teams:[],selectedCats:categories.map(x=>x[0]),difficulty:"mixed",turnSeconds:45,turns:2,wordsCount:48,wordsManual:false,customWords:[],round:1,roundPool:[],guesses:{1:{},2:{},3:{}},turnOrder:[],turnIndex:0,currentCard:null,turnCorrect:0,turnSkipped:0,skippedThisTurn:[],gameWords:[]}}
 function persist(){save(S)}
 function shell(body,back=false){
-  app.innerHTML=`<main class="shell"><div class="topbar"><div class="brand">🎩 ${t("app")}</div><div><button class="icon-btn" id="homeBtn" aria-label="Home">🏠</button>${back?`<button class="icon-btn" id="back">←</button>`:""}<button class="icon-btn" id="settings">⚙️</button></div></div>${body}</main>`;
-  $("#homeBtn").onclick=goHome;
+  app.innerHTML=`<main class="shell"><div class="topbar"><button class="brand home-link" id="brandHome" type="button">🎩 ${t("app")}</button><div><button class="icon-btn" id="homeBtn" aria-label="Home">🏠</button>${back?`<button class="icon-btn" id="back">←</button>`:""}<button class="icon-btn" id="settings">⚙️</button></div></div>${body}</main>`;
+  $("#homeBtn").onclick=goHome; $("#brandHome").onclick=goHome;
   if(back) $("#back").onclick=goBack;
   $("#settings")?.addEventListener("click",openSettings);
 }
@@ -38,7 +38,9 @@ function home(){
 }
 function settings(){
  shell(`<h1>${t("settings")}</h1><div class="card"><h3>${t("language")}</h3><div class="pill-row">${[["ru","Русский"],["uk","Українська"],["en","English"]].map(([k,v])=>`<button class="pill ${getLang()==k?"selected":""}" data-l="${k}">${v}</button>`).join("")}</div></div><button class="btn secondary" id="done">${t("back")}</button>`,true);
- $$("[data-l]").forEach(b=>b.onclick=()=>{setLang(b.dataset.l);render()}); $("#done").onclick=()=>{const target=S.returnScreen||"home";delete S.returnScreen;go(target)};
+ $$("[data-l]").forEach(b=>b.onclick=()=>{setLang(b.dataset.l);render()});
+ $("#done").onclick=goHome;
+ $("#back").onclick=goHome;
 }
 function players(){
  shell(`<h1>${t("playersQ")}</h1><p class="muted">${t("minPlayers")}</p><div class="number"><button id="minus">−</button><strong>${S.playersCount}</strong><button id="plus">+</button></div><button class="btn primary" id="next">${t("next")}</button>`,true);

@@ -1,0 +1,470 @@
+[
+  {
+    "id": "ru-1",
+    "word": "Крокодил",
+    "category": "animals",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-2",
+    "word": "Кенгуру",
+    "category": "animals",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-3",
+    "word": "Пингвин",
+    "category": "animals",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-4",
+    "word": "Капибара",
+    "category": "animals",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-5",
+    "word": "Хамелеон",
+    "category": "animals",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-6",
+    "word": "Дельфин",
+    "category": "animals",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-7",
+    "word": "Титаник",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-8",
+    "word": "Гарри Поттер",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-9",
+    "word": "Шрек",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-10",
+    "word": "Матрица",
+    "category": "movies",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-11",
+    "word": "Один дома",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-12",
+    "word": "Король Лев",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-13",
+    "word": "Пицца",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-14",
+    "word": "Суши",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-15",
+    "word": "Борщ",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-16",
+    "word": "Авокадо",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-17",
+    "word": "Попкорн",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-18",
+    "word": "Круассан",
+    "category": "food",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-19",
+    "word": "Париж",
+    "category": "places",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-20",
+    "word": "Ниагарский водопад",
+    "category": "places",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-21",
+    "word": "Сахара",
+    "category": "places",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-22",
+    "word": "Антарктида",
+    "category": "places",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-23",
+    "word": "Гавайи",
+    "category": "places",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-24",
+    "word": "Лас-Вегас",
+    "category": "places",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-25",
+    "word": "Футбол",
+    "category": "sports",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-26",
+    "word": "Хоккей",
+    "category": "sports",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-27",
+    "word": "Теннис",
+    "category": "sports",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-28",
+    "word": "Сноуборд",
+    "category": "sports",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-29",
+    "word": "Бокс",
+    "category": "sports",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-30",
+    "word": "Марафон",
+    "category": "sports",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-31",
+    "word": "Гитара",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-32",
+    "word": "Барабаны",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-33",
+    "word": "Опера",
+    "category": "music",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-34",
+    "word": "Диджей",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-35",
+    "word": "Караоке",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-36",
+    "word": "Скрипка",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-37",
+    "word": "Альберт Эйнштейн",
+    "category": "people",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-38",
+    "word": "Шерлок Холмс",
+    "category": "people",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-39",
+    "word": "Бэтмен",
+    "category": "people",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-40",
+    "word": "Микки Маус",
+    "category": "people",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-41",
+    "word": "Наполеон",
+    "category": "people",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-42",
+    "word": "Золушка",
+    "category": "people",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-43",
+    "word": "Пожарный",
+    "category": "jobs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-44",
+    "word": "Пилот",
+    "category": "jobs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-45",
+    "word": "Стоматолог",
+    "category": "jobs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-46",
+    "word": "Археолог",
+    "category": "jobs",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-47",
+    "word": "Бариста",
+    "category": "jobs",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-48",
+    "word": "Фотограф",
+    "category": "jobs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-49",
+    "word": "Зонтик",
+    "category": "objects",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-50",
+    "word": "Чемодан",
+    "category": "objects",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-51",
+    "word": "Будильник",
+    "category": "objects",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-52",
+    "word": "Пылесос",
+    "category": "objects",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-53",
+    "word": "Телескоп",
+    "category": "objects",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-54",
+    "word": "Штопор",
+    "category": "objects",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-55",
+    "word": "Вулкан",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-56",
+    "word": "Радуга",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-57",
+    "word": "Айсберг",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-58",
+    "word": "Торнадо",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-59",
+    "word": "Водопад",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-60",
+    "word": "Северное сияние",
+    "category": "nature",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-61",
+    "word": "Смартфон",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-62",
+    "word": "Робот",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-63",
+    "word": "Пароль",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-64",
+    "word": "Wi‑Fi",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-65",
+    "word": "Дрон",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-66",
+    "word": "Искусственный интеллект",
+    "category": "tech",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-67",
+    "word": "Пирамида",
+    "category": "history",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-68",
+    "word": "Гладиатор",
+    "category": "history",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-69",
+    "word": "Викинг",
+    "category": "history",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-70",
+    "word": "Рыцарь",
+    "category": "history",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-71",
+    "word": "Мамонт",
+    "category": "history",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-72",
+    "word": "Фараон",
+    "category": "history",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-73",
+    "word": "Похмелье",
+    "category": "funny",
+    "difficulty": "normal"
+  },
+  {
+    "id": "ru-74",
+    "word": "Храп",
+    "category": "funny",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-75",
+    "word": "Опоздание",
+    "category": "funny",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-76",
+    "word": "Селфи",
+    "category": "funny",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-77",
+    "word": "Мем",
+    "category": "funny",
+    "difficulty": "easy"
+  },
+  {
+    "id": "ru-78",
+    "word": "Танец на столе",
+    "category": "funny",
+    "difficulty": "normal"
+  }
+]

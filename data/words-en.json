@@ -1,0 +1,470 @@
+[
+  {
+    "id": "en-1",
+    "word": "Crocodile",
+    "category": "animals",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-2",
+    "word": "Kangaroo",
+    "category": "animals",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-3",
+    "word": "Penguin",
+    "category": "animals",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-4",
+    "word": "Capybara",
+    "category": "animals",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-5",
+    "word": "Chameleon",
+    "category": "animals",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-6",
+    "word": "Dolphin",
+    "category": "animals",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-7",
+    "word": "Titanic",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-8",
+    "word": "Harry Potter",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-9",
+    "word": "Shrek",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-10",
+    "word": "The Matrix",
+    "category": "movies",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-11",
+    "word": "Home Alone",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-12",
+    "word": "The Lion King",
+    "category": "movies",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-13",
+    "word": "Pizza",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-14",
+    "word": "Sushi",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-15",
+    "word": "Borscht",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-16",
+    "word": "Avocado",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-17",
+    "word": "Popcorn",
+    "category": "food",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-18",
+    "word": "Croissant",
+    "category": "food",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-19",
+    "word": "Paris",
+    "category": "places",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-20",
+    "word": "Niagara Falls",
+    "category": "places",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-21",
+    "word": "Sahara",
+    "category": "places",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-22",
+    "word": "Antarctica",
+    "category": "places",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-23",
+    "word": "Hawaii",
+    "category": "places",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-24",
+    "word": "Las Vegas",
+    "category": "places",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-25",
+    "word": "Football",
+    "category": "sports",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-26",
+    "word": "Hockey",
+    "category": "sports",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-27",
+    "word": "Tennis",
+    "category": "sports",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-28",
+    "word": "Snowboard",
+    "category": "sports",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-29",
+    "word": "Boxing",
+    "category": "sports",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-30",
+    "word": "Marathon",
+    "category": "sports",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-31",
+    "word": "Guitar",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-32",
+    "word": "Drums",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-33",
+    "word": "Opera",
+    "category": "music",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-34",
+    "word": "DJ",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-35",
+    "word": "Karaoke",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-36",
+    "word": "Violin",
+    "category": "music",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-37",
+    "word": "Albert Einstein",
+    "category": "people",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-38",
+    "word": "Sherlock Holmes",
+    "category": "people",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-39",
+    "word": "Batman",
+    "category": "people",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-40",
+    "word": "Mickey Mouse",
+    "category": "people",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-41",
+    "word": "Napoleon",
+    "category": "people",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-42",
+    "word": "Cinderella",
+    "category": "people",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-43",
+    "word": "Firefighter",
+    "category": "jobs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-44",
+    "word": "Pilot",
+    "category": "jobs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-45",
+    "word": "Dentist",
+    "category": "jobs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-46",
+    "word": "Archaeologist",
+    "category": "jobs",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-47",
+    "word": "Barista",
+    "category": "jobs",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-48",
+    "word": "Photographer",
+    "category": "jobs",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-49",
+    "word": "Umbrella",
+    "category": "objects",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-50",
+    "word": "Suitcase",
+    "category": "objects",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-51",
+    "word": "Alarm Clock",
+    "category": "objects",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-52",
+    "word": "Vacuum Cleaner",
+    "category": "objects",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-53",
+    "word": "Telescope",
+    "category": "objects",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-54",
+    "word": "Corkscrew",
+    "category": "objects",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-55",
+    "word": "Volcano",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-56",
+    "word": "Rainbow",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-57",
+    "word": "Iceberg",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-58",
+    "word": "Tornado",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-59",
+    "word": "Waterfall",
+    "category": "nature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-60",
+    "word": "Northern Lights",
+    "category": "nature",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-61",
+    "word": "Smartphone",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-62",
+    "word": "Robot",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-63",
+    "word": "Password",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-64",
+    "word": "Wi-Fi",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-65",
+    "word": "Drone",
+    "category": "tech",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-66",
+    "word": "Artificial Intelligence",
+    "category": "tech",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-67",
+    "word": "Pyramid",
+    "category": "history",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-68",
+    "word": "Gladiator",
+    "category": "history",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-69",
+    "word": "Viking",
+    "category": "history",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-70",
+    "word": "Knight",
+    "category": "history",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-71",
+    "word": "Mammoth",
+    "category": "history",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-72",
+    "word": "Pharaoh",
+    "category": "history",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-73",
+    "word": "Hangover",
+    "category": "funny",
+    "difficulty": "normal"
+  },
+  {
+    "id": "en-74",
+    "word": "Snoring",
+    "category": "funny",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-75",
+    "word": "Being Late",
+    "category": "funny",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-76",
+    "word": "Selfie",
+    "category": "funny",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-77",
+    "word": "Meme",
+    "category": "funny",
+    "difficulty": "easy"
+  },
+  {
+    "id": "en-78",
+    "word": "Dancing on a Table",
+    "category": "funny",
+    "difficulty": "normal"
+  }
+]

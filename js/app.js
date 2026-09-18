@@ -15,7 +15,7 @@ function go(screen){S.screen=screen;persist();render()}
 function goBack(){const map={players:"home",teams:"players",names:"teams",balance:"names",categories:"names",difficulty:"categories",gameSettings:"difficulty",custom:"gameSettings",ready:"custom",roundIntro:"ready"};go(map[S.screen]||"home")}
 function render(){
   clearInterval(timer); timer=null;
-  ({home,settings,players,teams,names,balance,categoriesScreen,difficulty,gameSettings,custom,ready,roundIntro,preTurn,play,turnResult,roundResult,final}[S.screen]||home)();
+  ({home,settings,players,teams,names,balance,categories:categoriesScreen,difficulty,gameSettings,custom,ready,roundIntro,preTurn,play,turnResult,roundResult,final}[S.screen]||home)();
 }
 function home(){
  const has=!!load()&&load().screen!=="home";

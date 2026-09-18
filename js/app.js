@@ -4,6 +4,8 @@ import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCard
 import {save,load,clear} from "./storage.js";
 
 const app=document.querySelector("#app");
+const $=(selector)=>document.querySelector(selector);
+const $$=(selector)=>[...document.querySelectorAll(selector)];
 let S=load()||fresh();
 let timer=null;
 

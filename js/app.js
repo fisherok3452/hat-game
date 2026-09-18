@@ -10,20 +10,26 @@ let timer=null;
 function fresh(){return {screen:"home",playersCount:4,teamCount:2,teams:[],selectedCats:categories.map(x=>x[0]),difficulty:"mixed",turnSeconds:45,turns:2,wordsCount:48,wordsManual:false,customWords:[],round:1,roundPool:[],guesses:{1:{},2:{},3:{}},turnOrder:[],turnIndex:0,currentCard:null,turnCorrect:0,turnSkipped:0,skippedThisTurn:[],gameWords:[]}}
 function persist(){save(S)}
 function shell(body,back=false){
-  app.innerHTML=`<main class="shell"><div class="topbar"><button class="brand home-link" id="brandHome" type="button">🎩 ${t("app")}</button><div><button class="icon-btn" id="homeBtn" aria-label="Home">🏠</button>${back?`<button class="icon-btn" id="back">←</button>`:""}<button class="icon-btn" id="settings">⚙️</button></div></div>${body}</main>`;
-  $("#homeBtn").onclick=goHome; $("#brandHome").onclick=goHome;
-  if(back) $("#back").onclick=goBack;
-  $("#settings")?.addEventListener("click",openSettings);
+  app.innerHTML=`<main class="shell"><div class="topbar"><button class="brand home-link" id="brandHome" type="button">🎩 ${t("app")}</button><div>${back?`<button class="icon-btn" id="back" type="button">←</button>`:""}<button class="icon-btn" id="settings" type="button">⚙️</button></div></div>${body}</main>`;
+  $("#brandHome")?.addEventListener("click", goHome);
+  if(back) $("#back")?.addEventListener("click", goBack);
+  $("#settings")?.addEventListener("click", openSettings);
 }
 function goHome(){
   if(S.screen==="home") return;
-  S.resumeScreen=S.screen;
+  if(S.screen==="settings"){
+    const resume=S.returnScreen || S.resumeScreen;
+    if(resume) S.resumeScreen=resume;
+  } else {
+    S.resumeScreen=S.screen;
+  }
+  delete S.returnScreen;
   S.screen="home";
   persist();
   render();
 }
 function go(screen){S.screen=screen;persist();render()}
-function openSettings(){S.returnScreen=S.screen;S.screen="settings";persist();render()}
+function openSettings(){if(S.screen!=="settings")S.returnScreen=S.screen;S.screen="settings";persist();render()}
 function goBack(){const map={players:"home",teams:"players",names:"teams",balance:"names",categories:"names",difficulty:"categories",gameSettings:"difficulty",custom:"gameSettings",ready:"custom",roundIntro:"ready"};go(map[S.screen]||"home")}
 function render(){
   clearInterval(timer); timer=null;
@@ -38,9 +44,16 @@ function home(){
 }
 function settings(){
  shell(`<h1>${t("settings")}</h1><div class="card"><h3>${t("language")}</h3><div class="pill-row">${[["ru","Русский"],["uk","Українська"],["en","English"]].map(([k,v])=>`<button class="pill ${getLang()==k?"selected":""}" data-l="${k}">${v}</button>`).join("")}</div></div><button class="btn secondary" id="done">${t("back")}</button>`,true);
- $$("[data-l]").forEach(b=>b.onclick=()=>{setLang(b.dataset.l);render()});
- $("#done").onclick=goHome;
- $("#back").onclick=goHome;
+ $$("[data-l]").forEach(b=>b.onclick=()=>{setLang(b.dataset.l);persist();render()});
+ const returnFromSettings=()=>{
+   const target=S.returnScreen || S.resumeScreen || "home";
+   delete S.returnScreen;
+   S.screen=target;
+   persist();
+   render();
+ };
+ $("#done").onclick=returnFromSettings;
+ $("#back").onclick=returnFromSettings;
 }
 function players(){
  shell(`<h1>${t("playersQ")}</h1><p class="muted">${t("minPlayers")}</p><div class="number"><button id="minus">−</button><strong>${S.playersCount}</strong><button id="plus">+</button></div><button class="btn primary" id="next">${t("next")}</button>`,true);

@@ -9,7 +9,19 @@ let timer=null;
 
 function fresh(){return {screen:"home",playersCount:4,teamCount:2,teams:[],selectedCats:categories.map(x=>x[0]),difficulty:"mixed",turnSeconds:45,turns:2,wordsCount:48,wordsManual:false,customWords:[],round:1,roundPool:[],guesses:{1:{},2:{},3:{}},turnOrder:[],turnIndex:0,currentCard:null,turnCorrect:0,turnSkipped:0,skippedThisTurn:[],gameWords:[]}}
 function persist(){save(S)}
-function shell(body,back=false){app.innerHTML=`<main class="shell"><div class="topbar"><div class="brand">🎩 ${t("app")}</div>${back?`<button class="icon-btn" id="back">←</button>`:`<button class="icon-btn" id="settings">⚙️</button>`}</div>${body}</main>`; if(back) $("#back").onclick=goBack; else $("#settings")?.addEventListener("click",openSettings)}
+function shell(body,back=false){
+  app.innerHTML=`<main class="shell"><div class="topbar"><button class="brand home-link" id="homeBtn">🎩 ${t("app")}</button><div>${back?`<button class="icon-btn" id="back">←</button>`:""}<button class="icon-btn" id="settings">⚙️</button></div></div>${body}</main>`;
+  $("#homeBtn").onclick=()=>goHome();
+  if(back) $("#back").onclick=goBack;
+  $("#settings")?.addEventListener("click",openSettings);
+}
+function goHome(){
+  if(S.screen==="home") return;
+  if(confirm("Вернуться на главный экран? Текущая игра сохранится.")){
+    S.returnScreen=undefined;
+    go("home");
+  }
+}
 const $=q=>document.querySelector(q); const $$=q=>[...document.querySelectorAll(q)];
 function go(screen){S.screen=screen;persist();render()}
 function openSettings(){S.returnScreen=S.screen;S.screen="settings";persist();render()}

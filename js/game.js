@@ -16,7 +16,19 @@ export function buildTurnOrder(teams, turns, startTeam=0){
 }
 export function eligibleCards(state, teamIndex){
   const round=state.round;
-  return state.roundPool.filter(card => !(state.guesses[round]?.[card.id]||[]).includes(teamIndex));
+  const excludedByTeam = card => (state.guesses[round]?.[card.id]||[]).includes(teamIndex);
+
+  // Primary pool: cards not successfully guessed by ANY team yet.
+  const unresolved = state.roundPool.filter(card =>
+    (state.guesses[round]?.[card.id]||[]).length===0 && !excludedByTeam(card)
+  );
+  if(unresolved.length) return unresolved;
+
+  // Replay pool is used only after the primary pool is exhausted:
+  // cards guessed by another team but not yet by the current team.
+  return state.roundPool.filter(card =>
+    (state.guesses[round]?.[card.id]||[]).length>0 && !excludedByTeam(card)
+  );
 }
 export function pickCard(state, teamIndex, excluded=[]){
   const cards=eligibleCards(state,teamIndex).filter(c=>!excluded.includes(c.id));

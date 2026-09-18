@@ -9,9 +9,10 @@ let timer=null;
 
 function fresh(){return {screen:"home",playersCount:4,teamCount:2,teams:[],selectedCats:categories.map(x=>x[0]),difficulty:"mixed",turnSeconds:45,turns:2,wordsCount:48,wordsManual:false,customWords:[],round:1,roundPool:[],guesses:{1:{},2:{},3:{}},turnOrder:[],turnIndex:0,currentCard:null,turnCorrect:0,turnSkipped:0,skippedThisTurn:[],gameWords:[]}}
 function persist(){save(S)}
-function shell(body,back=false){app.innerHTML=`<main class="shell"><div class="topbar"><div class="brand">🎩 ${t("app")}</div>${back?`<button class="icon-btn" id="back">←</button>`:`<button class="icon-btn" id="settings">⚙️</button>`}</div>${body}</main>`; if(back) $("#back").onclick=goBack; else $("#settings")?.addEventListener("click",()=>go("settings"))}
+function shell(body,back=false){app.innerHTML=`<main class="shell"><div class="topbar"><div class="brand">🎩 ${t("app")}</div>${back?`<button class="icon-btn" id="back">←</button>`:`<button class="icon-btn" id="settings">⚙️</button>`}</div>${body}</main>`; if(back) $("#back").onclick=goBack; else $("#settings")?.addEventListener("click",openSettings)}
 const $=q=>document.querySelector(q); const $$=q=>[...document.querySelectorAll(q)];
 function go(screen){S.screen=screen;persist();render()}
+function openSettings(){S.returnScreen=S.screen;S.screen="settings";persist();render()}
 function goBack(){const map={players:"home",teams:"players",names:"teams",balance:"names",categories:"names",difficulty:"categories",gameSettings:"difficulty",custom:"gameSettings",ready:"custom",roundIntro:"ready"};go(map[S.screen]||"home")}
 function render(){
   clearInterval(timer); timer=null;
@@ -25,7 +26,7 @@ function home(){
 }
 function settings(){
  shell(`<h1>${t("settings")}</h1><div class="card"><h3>${t("language")}</h3><div class="pill-row">${[["ru","Русский"],["uk","Українська"],["en","English"]].map(([k,v])=>`<button class="pill ${getLang()==k?"selected":""}" data-l="${k}">${v}</button>`).join("")}</div></div><button class="btn secondary" id="done">${t("back")}</button>`,true);
- $$("[data-l]").forEach(b=>b.onclick=()=>{setLang(b.dataset.l);render()}); $("#done").onclick=()=>go("home");
+ $$("[data-l]").forEach(b=>b.onclick=()=>{setLang(b.dataset.l);render()}); $("#done").onclick=()=>{const target=S.returnScreen||"home";delete S.returnScreen;go(target)};
 }
 function players(){
  shell(`<h1>${t("playersQ")}</h1><p class="muted">${t("minPlayers")}</p><div class="number"><button id="minus">−</button><strong>${S.playersCount}</strong><button id="plus">+</button></div><button class="btn primary" id="next">${t("next")}</button>`,true);
@@ -51,7 +52,7 @@ function balance(){
 function categoriesScreen(){
  const lang=getLang();
  shell(`<h1>${t("categories")}</h1><p class="muted">${t("catHint")}</p><button class="choice ${S.selectedCats.length===categories.length?"selected":""}" id="all">✓ ${t("allCats")}</button><div class="spacer"></div><div class="grid">${categories.map(([k,e])=>`<button class="choice ${S.selectedCats.includes(k)?"selected":""}" data-c="${k}">${e} ${categoryNames[lang][k]}</button>`).join("")}</div><button class="btn primary" id="next">${t("next")}</button>`,true);
- $("#all").onclick=()=>{S.selectedCats=categories.map(x=>x[0]);render()};$$("[data-c]").forEach(b=>b.onclick=()=>{const k=b.dataset.c;S.selectedCats=S.selectedCats.includes(k)?S.selectedCats.filter(x=>x!==k):[...S.selectedCats,k];render()});$("#next").onclick=()=>{if(!S.selectedCats.length)return alert(t("categories"));go("difficulty")};
+ $("#all").onclick=()=>{S.selectedCats=S.selectedCats.length===categories.length?[]:categories.map(x=>x[0]);render()};$$("[data-c]").forEach(b=>b.onclick=()=>{const k=b.dataset.c;S.selectedCats=S.selectedCats.includes(k)?S.selectedCats.filter(x=>x!==k):[...S.selectedCats,k];render()});$("#next").onclick=()=>{if(!S.selectedCats.length)return alert(t("categories"));go("difficulty")};
 }
 function difficulty(){
  const opts=[["easy",t("easy")],["normal",t("normal")],["hard",t("hard")],["mixed","🎲 "+t("mixed")]];

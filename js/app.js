@@ -64,7 +64,7 @@ function players(){
 function teamOptions(n){let out=[];for(let k=2;k<=Math.floor(n/2);k++){const base=Math.floor(n/k),rem=n%k;if(base>=2)out.push({k,sizes:Array.from({length:k},(_,i)=>base+(i<rem?1:0))})}return out}
 function teams(){
  const opts=teamOptions(S.playersCount);
- shell(`<h1>${t("teamsQ")}</h1><p class="muted">${t("chooseTeams")}</p>${opts.map((o,i)=>`<button class="choice" data-i="${i}"><strong>${o.k} ${t("teams")}</strong><br>${o.sizes.join(" + ")}${new Set(o.sizes).size>1?`<div class="small muted">${t("uneven")}</div>`:""}</button>`).join("")}`,true);
+ shell(`<h1>${t("teamsQ")}</h1><p class="muted">${t("chooseTeams")}</p><div class="team-options">${opts.map((o,i)=>`<button class="choice team-option" data-i="${i}"><strong>${o.k} ${t("teams")}</strong><span class="split">${o.sizes.join(" + ")}</span>${new Set(o.sizes).size>1?`<span class="small muted">${t("uneven")}</span>`:""}</button>`).join("")}</div>`,true);
  $$("[data-i]").forEach(b=>b.onclick=()=>{const o=opts[+b.dataset.i];S.teamCount=o.k;const names=teamNames(getLang(),o.k);S.teams=o.sizes.map((size,i)=>({id:i,name:names[i].name,emoji:names[i].emoji,score:0,roundScore:0,players:Array.from({length:size},(_,j)=>({id:`${i}-${j}-${Date.now()}`,name:"",guessOnly:false}))}));go("names")});
 }
 function names(){
@@ -85,7 +85,7 @@ function categoriesScreen(){
 }
 function difficulty(){
  const opts=[["easy",t("easy")],["normal",t("normal")],["hard",t("hard")],["mixed","🎲 "+t("mixed")]];
- shell(`<h1>${t("difficulty")}</h1>${opts.map(([k,v])=>`<button class="choice ${S.difficulty===k?"selected":""}" data-d="${k}"><strong>${v}</strong></button>`).join("")}<button class="btn primary" id="next">${t("next")}</button>`,true);
+ shell(`<h1>${t("difficulty")}</h1><div class="difficulty-options">${opts.map(([k,v])=>`<button class="choice difficulty-option ${S.difficulty===k?"selected":""}" data-d="${k}"><strong>${v}</strong></button>`).join("")}</div><button class="btn primary" id="next">${t("next")}</button>`,true);
  $$("[data-d]").forEach(b=>b.onclick=()=>{S.difficulty=b.dataset.d;render()});$("#next").onclick=()=>go("gameSettings");
 }
 function activeCount(){return S.teams.reduce((n,t)=>n+t.players.filter(p=>!p.guessOnly).length,0)}

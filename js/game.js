@@ -36,9 +36,11 @@ export function pickCard(state, teamIndex, excluded=[]){
   return cards[Math.floor(Math.random()*cards.length)];
 }
 export function markGuess(state,cardId,teamIndex){
-  const r=state.round; state.guesses[r]??={}; state.guesses[r][cardId]??=[];
-  if(!state.guesses[r][cardId].includes(teamIndex)){
-    state.guesses[r][cardId].push(teamIndex); state.teams[teamIndex].score++; state.teams[teamIndex].roundScore++;
+  const r=state.round;state.guesses[r]??={};state.guesses[r][cardId]??=[];
+  if(state.guesses[r][cardId].length===0){
+    state.guesses[r][cardId].push(teamIndex);
+    state.teams[teamIndex].score++;
+    state.teams[teamIndex].roundScore++;
     return true;
   }
   return false;
@@ -48,5 +50,5 @@ export function uniqueGuessed(state){
   return state.roundPool.filter(c=>(g[c.id]||[]).length>0);
 }
 export function allCardsExhausted(state){
-  return state.roundPool.every(c => (state.guesses[state.round]?.[c.id]||[]).length >= state.teams.length);
+  return state.roundPool.every(c=>(state.guesses[state.round]?.[c.id]||[]).length>0);
 }

@@ -1,7 +1,7 @@
-import {t,getLang,setLang} from "./i18n.js";
-import {categories,categoryNames,teamNames} from "./data.js";
-import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js";
-import {save,load,clear} from "./storage.js";
+import {t,getLang,setLang} from "./i18n.js?v=11.2";
+import {categories,categoryNames,teamNames} from "./data.js?v=11.2";
+import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=11.2";
+import {save,load,clear} from "./storage.js?v=11.2";
 
 const app=document.querySelector("#app");
 const $=(selector)=>document.querySelector(selector);
@@ -12,7 +12,7 @@ let timer=null;
 function fresh(){return {screen:"home",playersCount:4,teamCount:2,teams:[],selectedCats:categories.map(x=>x[0]),difficulty:"mixed",turnSeconds:45,turns:2,wordsCount:48,wordsManual:false,customWords:[],round:1,roundPool:[],guesses:{1:{},2:{},3:{}},turnOrder:[],turnIndex:0,currentCard:null,turnCorrect:0,turnSkipped:0,skippedThisTurn:[],turnGuessedIds:[],gameWords:[],lastChance:false,tiebreak:null}}
 function persist(){save(S)}
 function shell(body,back=false){
-  app.innerHTML=`<main class="shell"><div class="topbar"><button class="brand home-link" id="brandHome" type="button">\u{1F3A9} ${t("app")}</button><div>${back?`<button class="icon-btn" id="back" type="button">â</button>`:""}<button class="icon-btn" id="settings" type="button">\u2699ï¸</button></div></div>${body}</main>`;
+  app.innerHTML=`<main class="shell"><div class="topbar"><button class="brand home-link" id="brandHome" type="button">&#x1F3A9; ${t("app")}</button><div>${back?`<button class="icon-btn" id="back" type="button">â</button>`:""}<button class="icon-btn" id="settings" type="button">&#x2699;&#xFE0F;</button></div></div>${body}</main>`;
   $("#brandHome")?.addEventListener("click", goHome);
   if(back) $("#back")?.addEventListener("click", goBack);
   $("#settings")?.addEventListener("click", openSettings);
@@ -39,7 +39,7 @@ function render(){
 }
 function home(){
  const has=!!S.resumeScreen;
- shell(`<section class="hero"><div class="hat">\u{1F3A9}</div><h1>${t("app")}</h1><p class="muted">${t("tag")}</p></section>
+ shell(`<section class="hero"><div class="hat">&#x1F3A9;</div><h1>${t("app")}</h1><p class="muted">${t("tag")}</p></section>
  <button class="btn primary" id="new">${t("newGame")}</button>${has?`<button class="btn secondary" id="cont">${t("continueGame")}</button>`:""}`);
  $("#new").onclick=()=>{clear();S=fresh();go("players")};
  $("#cont")?.addEventListener("click",()=>{const target=S.resumeScreen;delete S.resumeScreen;S.screen=target;persist();render()});

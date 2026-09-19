@@ -56,62 +56,10 @@ p{line-height:1.5}
 hr{border:0;border-top:1px solid var(--soft);margin:18px 0}
 @media(max-width:430px){h1{font-size:34px}.word{font-size:38px}.shell{padding-left:14px;padding-right:14px}}
 
-
-/* v9 â cleaner setup screens */
-button{color:var(--ink);-webkit-tap-highlight-color:transparent}
-.choice{color:var(--ink);width:100%}
-.choice strong{color:inherit}
-.choice.selected{color:var(--ink);background:#fffdf8}
-
-.team-options{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-  margin-top:18px
-}
-.team-option{
-  min-height:128px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:flex-start;
-  gap:7px
-}
-.team-option strong{font-size:20px}
-.team-option .split{font-size:18px}
-.team-option .small{line-height:1.35}
-
-.difficulty-options{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-  margin:18px 0 8px
-}
-.difficulty-option{
-  min-height:84px;
-  text-align:center;
-  display:flex;
-  align-items:center;
-  justify-content:center
-}
-.difficulty-option strong{font-size:20px}
-.difficulty-option.selected{
-  background:var(--ink);
-  color:white;
-  border-color:var(--ink)
-}
-
-/* Safari must not paint ordinary setup buttons blue */
-.team-option,
-.difficulty-option,
-.grid .choice{
-  -webkit-appearance:none;
-  appearance:none;
-  color:var(--ink)
-}
-
-@media(max-width:430px){
-  .team-options,.difficulty-options{gap:10px}
-  .team-option{min-height:116px;padding:14px}
-  .difficulty-option{min-height:78px;padding:12px 8px}
-}
+.timer.expired{color:var(--danger)}
+.last-chance-label{font-weight:900;color:var(--danger);margin:-4px 0 14px}
+.game-actions.final-answer{grid-template-columns:1fr 1fr}
+.guessed-list h3{margin-bottom:12px}
+.guessed-word{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--soft)}
+.guessed-word:last-child{border-bottom:0}
+.guessed-word span{min-width:24px;color:var(--muted)}

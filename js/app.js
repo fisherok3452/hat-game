@@ -1,7 +1,7 @@
-import {t,getLang,setLang} from "./i18n.js?v=11.2";
-import {categories,categoryNames,teamNames} from "./data.js?v=11.2";
-import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=11.2";
-import {save,load,clear} from "./storage.js?v=11.2";
+import {t,getLang,setLang} from "./i18n.js?v=11.3";
+import {categories,categoryNames,teamNames} from "./data.js?v=11.3";
+import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=11.3";
+import {save,load,clear} from "./storage.js?v=11.3";
 
 const app=document.querySelector("#app");
 const $=(selector)=>document.querySelector(selector);
@@ -12,7 +12,7 @@ let timer=null;
 function fresh(){return {screen:"home",playersCount:4,teamCount:2,teams:[],selectedCats:categories.map(x=>x[0]),difficulty:"mixed",turnSeconds:45,turns:2,wordsCount:48,wordsManual:false,customWords:[],round:1,roundPool:[],guesses:{1:{},2:{},3:{}},turnOrder:[],turnIndex:0,currentCard:null,turnCorrect:0,turnSkipped:0,skippedThisTurn:[],turnGuessedIds:[],gameWords:[],lastChance:false,tiebreak:null}}
 function persist(){save(S)}
 function shell(body,back=false){
-  app.innerHTML=`<main class="shell"><div class="topbar"><button class="brand home-link" id="brandHome" type="button">&#x1F3A9; ${t("app")}</button><div>${back?`<button class="icon-btn" id="back" type="button">â</button>`:""}<button class="icon-btn" id="settings" type="button">&#x2699;&#xFE0F;</button></div></div>${body}</main>`;
+  app.innerHTML=`<main class="shell"><div class="topbar"><button class="brand home-link" id="brandHome" type="button">\u{1F3A9} ${t("app")}</button><div>${back?`<button class="icon-btn" id="back" type="button">\u2190</button>`:""}<button class="icon-btn" id="settings" type="button">\u2699\uFE0F</button></div></div>${body}</main>`;
   $("#brandHome")?.addEventListener("click", goHome);
   if(back) $("#back")?.addEventListener("click", goBack);
   $("#settings")?.addEventListener("click", openSettings);
@@ -39,13 +39,13 @@ function render(){
 }
 function home(){
  const has=!!S.resumeScreen;
- shell(`<section class="hero"><div class="hat">&#x1F3A9;</div><h1>${t("app")}</h1><p class="muted">${t("tag")}</p></section>
+ shell(`<section class="hero"><div class="hat">\u{1F3A9}</div><h1>${t("app")}</h1><p class="muted">${t("tag")}</p></section>
  <button class="btn primary" id="new">${t("newGame")}</button>${has?`<button class="btn secondary" id="cont">${t("continueGame")}</button>`:""}`);
  $("#new").onclick=()=>{clear();S=fresh();go("players")};
  $("#cont")?.addEventListener("click",()=>{const target=S.resumeScreen;delete S.resumeScreen;S.screen=target;persist();render()});
 }
 function settings(){
- shell(`<h1>${t("settings")}</h1><div class="card"><h3>${t("language")}</h3><div class="pill-row">${[["ru","Ð ÑÑÑÐºÐ¸Ð¹"],["uk","Ð£ÐºÑÐ°ÑÐ½ÑÑÐºÐ°"],["en","English"]].map(([k,v])=>`<button class="pill ${getLang()==k?"selected":""}" data-l="${k}">${v}</button>`).join("")}</div></div><button class="btn secondary" id="done">${t("back")}</button>`,true);
+ shell(`<h1>${t("settings")}</h1><div class="card"><h3>${t("language")}</h3><div class="pill-row">${[["ru","\u0420\u0443\u0441\u0441\u043A\u0438\u0439"],["uk","\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430"],["en","English"]].map(([k,v])=>`<button class="pill ${getLang()==k?"selected":""}" data-l="${k}">${v}</button>`).join("")}</div></div><button class="btn secondary" id="done">${t("back")}</button>`,true);
  $$("[data-l]").forEach(b=>b.onclick=()=>{setLang(b.dataset.l);persist();render()});
  const returnFromSettings=()=>{
    const target=S.returnScreen || S.resumeScreen || "home";
@@ -58,7 +58,7 @@ function settings(){
  $("#back").onclick=returnFromSettings;
 }
 function players(){
- shell(`<h1>${t("playersQ")}</h1><p class="muted">${t("minPlayers")}</p><div class="number"><button id="minus">â</button><strong>${S.playersCount}</strong><button id="plus">+</button></div><button class="btn primary" id="next">${t("next")}</button>`,true);
+ shell(`<h1>${t("playersQ")}</h1><p class="muted">${t("minPlayers")}</p><div class="number"><button id="minus">\u2212</button><strong>${S.playersCount}</strong><button id="plus">+</button></div><button class="btn primary" id="next">${t("next")}</button>`,true);
  $("#minus").onclick=()=>{S.playersCount=Math.max(4,S.playersCount-1);render()};$("#plus").onclick=()=>{S.playersCount=Math.min(20,S.playersCount+1);render()};$("#next").onclick=()=>go("teams");
 }
 function teamOptions(n){let out=[];for(let k=2;k<=Math.floor(n/2);k++){const base=Math.floor(n/k),rem=n%k;if(base>=2)out.push({k,sizes:Array.from({length:k},(_,i)=>base+(i<rem?1:0))})}return out}
@@ -91,7 +91,7 @@ function difficulty(){
 function activeCount(){return S.teams.reduce((n,t)=>n+t.players.filter(p=>!p.guessOnly).length,0)}
 function gameSettings(){
  const rec=recommendedWords(activeCount(),S.turns); if(!S.wordsManual)S.wordsCount=rec;
- shell(`<h1>${t("gameSettings")}</h1><div class="card"><h3>${t("words")}</h3><div class="number"><button id="wm">â</button><strong>${S.wordsCount}</strong><button id="wp">+</button></div><p class="muted center">${t("recommended")}: ${rec}</p></div>
+ shell(`<h1>${t("gameSettings")}</h1><div class="card"><h3>${t("words")}</h3><div class="number"><button id="wm">\u2212</button><strong>${S.wordsCount}</strong><button id="wp">+</button></div><p class="muted center">${t("recommended")}: ${rec}</p></div>
  <div class="card"><h3>${t("turnTime")}</h3><div class="grid3">${[30,45,60].map(x=>`<button class="pill ${S.turnSeconds===x?"selected":""}" data-sec="${x}">${x}</button>`).join("")}</div></div>
  <div class="card"><h3>${t("turns")}</h3><div class="grid3">${[1,2,3].map(x=>`<button class="pill ${S.turns===x?"selected":""}" data-turn="${x}">${x}</button>`).join("")}</div></div><button class="btn primary" id="next">${t("next")}</button>`,true);
  $("#wm").onclick=()=>{S.wordsManual=true;S.wordsCount=Math.max(8,S.wordsCount-4);render()};$("#wp").onclick=()=>{S.wordsManual=true;S.wordsCount+=4;render()};$$("[data-sec]").forEach(b=>b.onclick=()=>{S.turnSeconds=+b.dataset.sec;render()});$$("[data-turn]").forEach(b=>b.onclick=()=>{S.turns=+b.dataset.turn;render()});$("#next").onclick=()=>go("custom");
@@ -111,7 +111,7 @@ async function startGame(){
   const custom=S.customWords.map((word,i)=>({id:`custom-${i}`,word,category:"funny",difficulty:"normal"}));
   words=words.sort(()=>Math.random()-.5).slice(0,Math.max(0,S.wordsCount-custom.length));
   S.gameWords=[...custom,...words].slice(0,S.wordsCount);S.roundPool=[...S.gameWords];S.round=1;S.guesses={1:{},2:{},3:{}};S.teams.forEach(x=>{x.score=0;x.roundScore=0});S.screen="roundIntro";persist();render();
- }catch(e){alert("ÐÐµ ÑÐ´Ð°Ð»Ð¾ÑÑ Ð·Ð°Ð³ÑÑÐ·Ð¸ÑÑ ÑÐ»Ð¾Ð²Ð°ÑÑ. ÐÑÐ¾Ð²ÐµÑÑÑÐµ ÑÐ°Ð¹Ð»Ñ data/words-*.json");}
+ }catch(e){alert("\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u0441\u043B\u043E\u0432\u0430\u0440\u044C. \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u0444\u0430\u0439\u043B\u044B data/words-*.json");}
 }
 function roundIntro(){
  const title=S.round===1?t("r1"):S.round===2?t("r2"):t("r3"), rules=S.round===1?t("r1rules"):S.round===2?t("r2rules"):t("r3rules");
@@ -193,7 +193,7 @@ function tbTeam(){return S.teams[tbTeamIndex()]}
 function tbPlayer(){const ti=tbTeamIndex(),a=S.teams[ti].players.filter(p=>!p.guessOnly),n=S.tiebreak.playerCursor[ti]||0;return a[n%a.length]}
 function tiebreakIntro(){
  const tb=S.tiebreak;
- shell(`<div class="center"><div class="hat">â¡</div><h1>${t("tiebreak")}</h1><p>${t("tiebreakText")}</p><div class="card"><strong>${t("tiebreakCycle")} ${tb.cycle}</strong><p>${t("tiebreakRule")}</p></div></div><div class="card">${tb.teamIndexes.map(i=>`<div class="summary"><span>${S.teams[i].emoji} ${S.teams[i].name}</span><strong>${S.teams[i].score}</strong></div>`).join("")}</div><button class="btn primary" id="start">${t("startTiebreak")}</button>`);
+ shell(`<div class="center"><div class="hat">\u26A1</div><h1>${t("tiebreak")}</h1><p>${t("tiebreakText")}</p><div class="card"><strong>${t("tiebreakCycle")} ${tb.cycle}</strong><p>${t("tiebreakRule")}</p></div></div><div class="card">${tb.teamIndexes.map(i=>`<div class="summary"><span>${S.teams[i].emoji} ${S.teams[i].name}</span><strong>${S.teams[i].score}</strong></div>`).join("")}</div><button class="btn primary" id="start">${t("startTiebreak")}</button>`);
  $("#start").onclick=()=>go("tiebreakPreTurn");
 }
 function tiebreakPreTurn(){

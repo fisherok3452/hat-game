@@ -36,6 +36,15 @@ export function markGuess(state,cardId,teamIndex){
   }
   return false;
 }
+export function unmarkGuess(state,cardId,teamIndex){
+  const r=state.round, arr=state.guesses[r]?.[cardId];
+  if(!arr||!arr.includes(teamIndex)) return false;
+  state.guesses[r][cardId]=arr.filter(x=>x!==teamIndex);
+  if(state.guesses[r][cardId].length===0) delete state.guesses[r][cardId];
+  state.teams[teamIndex].score=Math.max(0,state.teams[teamIndex].score-1);
+  state.teams[teamIndex].roundScore=Math.max(0,state.teams[teamIndex].roundScore-1);
+  return true;
+}
 export function uniqueGuessed(state){
   const g=state.guesses[state.round]||{};
   return state.roundPool.filter(c=>(g[c.id]||[]).length>0);

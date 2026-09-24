@@ -127,3 +127,9 @@ button{color:var(--ink);-webkit-tap-highlight-color:transparent}
 .category-grid .category-option.selected,#all.selected{background:#dff3df;border-color:#4f9b58;color:#18391d}
 .featured-mode{border-width:2px}.rules-page{padding-bottom:calc(32px + env(safe-area-inset-bottom))}
 .rules-page .top{display:flex;align-items:center;justify-content:space-between}.rules-card{margin-bottom:14px}.rules-card h3{margin-bottom:8px}.rules-card p{line-height:1.45}.help-gear{margin-right:8px}
+
+/* v14.4 */
+.global-rules-btn{position:fixed;z-index:9999;top:calc(88px + env(safe-area-inset-top));right:92px;width:54px;height:54px;border-radius:50%;border:1px solid rgba(0,0,0,.08);background:#f2f2f2;font-size:30px;font-weight:800;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.quick-rules-page{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+.quick-rules-page h1{margin-bottom:8px}.quick-intro{margin-bottom:20px}.quick-card{padding:24px;margin-bottom:20px}.quick-card p{line-height:1.35}.quick-rounds{margin:18px 0}.quick-rounds p{margin:10px 0}
+.rules-x{font-size:34px}.rules-card h3{text-transform:none}

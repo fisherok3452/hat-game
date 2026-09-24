@@ -1,7 +1,7 @@
-import {t,getLang,setLang} from "./i18n.js?v=v14.3-combined";
-import {categories,categoryNames,teamNames} from "./data.js?v=v14.3-combined";
-import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=v14.3-combined";
-import {save,load,clear} from "./storage.js?v=v14.3-combined";
+import {t,getLang,setLang} from "./i18n.js?v=v14.4-combined";
+import {categories,categoryNames,teamNames} from "./data.js?v=v14.4-combined";
+import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=v14.4-combined";
+import {save,load,clear} from "./storage.js?v=v14.4-combined";
 
 const app=document.querySelector("#app");
 const $=(selector)=>document.querySelector(selector);
@@ -36,11 +36,18 @@ function openSettings(){if(S.screen!=="settings")S.returnScreen=S.screen;S.scree
 function goBack(){const map={modeSelect:"home",players:"modeSelect",teams:"players",names:"teams",balance:"names",categories:"names",difficulty:"categories",gameSettings:S.mode==="random"?"difficulty":"names",wordPass:"gameSettings",wordEntry:"wordPass",ready:S.mode==="random"?"gameSettings":"wordEntry",roundIntro:"ready"};go(map[S.screen]||"home")}
 function render(){
   clearInterval(timer); timer=null;
-  ({languageSelect,rules,home,modeSelect,settings,players,teams,names,balance,categories:categoriesScreen,difficulty,gameSettings,wordPass,wordEntry,ready,roundIntro,preTurn,play,lastChance,turnResult,roundResult,final,tiebreakIntro,tiebreakPreTurn,tiebreakPlay,tiebreakLastChance,tiebreakTurnResult,tiebreakResult}[S.screen]||home)();
+  ({languageSelect,quickRules,rules,home,modeSelect,settings,players,teams,names,balance,categories:categoriesScreen,difficulty,gameSettings,wordPass,wordEntry,ready,roundIntro,preTurn,play,lastChance,turnResult,roundResult,final,tiebreakIntro,tiebreakPreTurn,tiebreakPlay,tiebreakLastChance,tiebreakTurnResult,tiebreakResult}[S.screen]||home)();
+ if(!["languageSelect","quickRules","rules"].includes(S.screen)){
+   requestAnimationFrame(()=>{
+     if(!document.getElementById("globalRulesBtn")){
+       const q=document.createElement("button");q.id="globalRulesBtn";q.className="global-rules-btn";q.textContent="?";q.setAttribute("aria-label",t("rulesTitle"));q.onclick=openRules;document.body.appendChild(q);
+     }
+   });
+ }else document.getElementById("globalRulesBtn")?.remove();
 }
 function languageSelect(){
  app.innerHTML=`<main class="shell language-first"><section class="hero"><div class="hat">\u{1F3A9}</div><h1>Choose language</h1></section><div class="language-choices">${[["en","English"],["uk","\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430"],["ru","\u0420\u0443\u0441\u0441\u043A\u0438\u0439"]].map(([k,v])=>`<button class="btn secondary language-choice" data-first-lang="${k}">${v}</button>`).join("")}</div></main>`;
- $$("[data-first-lang]").forEach(btn=>btn.onclick=()=>{setLang(btn.dataset.firstLang);localStorage.setItem("hat_language_chosen_v1","1");S.rulesReturn="home";S.screen="rules";persist();render()});
+ $$("[data-first-lang]").forEach(btn=>btn.onclick=()=>{setLang(btn.dataset.firstLang);localStorage.setItem("hat_language_chosen_v1","1");S.rulesReturn="home";S.screen="quickRules";persist();render()});
 }
 let rulesPause=null;
 function openRules(){
@@ -54,16 +61,29 @@ function closeRules(){
  if(p&&p.screen===back&&p.remaining!==null&&typeof timeLeft!=="undefined")timeLeft=p.remaining;
  rulesPause=null;
 }
+function quickRules(){
+ app.innerHTML=`<main class="shell quick-rules-page"><header class="top"><div class="brand">\u{1F3A9} ${t("app")}</div></header>
+ <h1>${t("quickRulesTitle")}</h1><p class="muted quick-intro">${t("quickRulesIntro")}</p>
+ <section class="card quick-card"><p><strong>${t("quickGoal")}</strong></p><div class="quick-rounds"><p>${t("quickR1")}</p><p>${t("quickR2")}</p><p>${t("quickR3")}</p></div><p class="muted">${t("quickTurn")}</p></section>
+ <button class="btn primary" id="quickStart">${t("startGame")}</button>
+ <button class="btn secondary" id="quickFull">${t("fullRules")}</button></main>`;
+ $("#quickStart").onclick=()=>{localStorage.setItem("hat_rules_seen_v1","1");S.screen="home";persist();render()};
+ $("#quickFull").onclick=()=>{S.rulesReturn="quickRules";S.screen="rules";persist();render()};
+}
 function rules(){
- const first=S.rulesReturn==="home"&&!localStorage.getItem("hat_rules_seen_v1");
- app.innerHTML=`<main class="shell rules-page"><header class="top"><div class="brand">ð© ${t("app")}</div>${first?"":`<button class="icon" id="rulesClose">Ã</button>`}</header><h1>${t("rulesTitle")}</h1><p class="muted">${t("rulesIntro")}</p>
+ app.innerHTML=`<main class="shell rules-page"><header class="top"><div class="brand">\u{1F3A9} ${t("app")}</div><button class="icon rules-x" id="rulesClose" aria-label="${t("closeRules")}">\u00D7</button></header>
+ <h1>${t("rulesTitle")}</h1><p class="muted">${t("rulesIntro")}</p>
  <section class="card rules-card"><h3>${t("rulesGoalTitle")}</h3><p>${t("rulesGoalText")}</p></section>
  <section class="card rules-card"><h3>${t("rulesModesTitle")}</h3><p><strong>${t("ownWordsMode")}:</strong> ${t("rulesOwnText")}</p><p><strong>${t("randomWordsMode")}:</strong> ${t("rulesRandomText")}</p></section>
  <section class="card rules-card"><h3>${t("rulesTurnsTitle")}</h3><p>${t("rulesTurnsText")}</p></section>
- <section class="card rules-card"><h3>${t("round1")}</h3><p>${t("r1rules")}</p></section><section class="card rules-card"><h3>${t("round2")}</h3><p>${t("r2rules")}</p></section><section class="card rules-card"><h3>${t("round3")}</h3><p>${t("r3rules")}</p></section>
- <section class="card rules-card"><h3>${t("rulesScoringTitle")}</h3><p>${t("rulesScoringText")}</p></section><section class="card rules-card"><h3>${t("rulesTieTitle")}</h3><p>${t("rulesTieText")}</p></section>
- <button class="btn primary" id="rulesContinue">${first?t("continue"):t("back")}</button></main>`;
- $("#rulesContinue").onclick=()=>{localStorage.setItem("hat_rules_seen_v1","1");closeRules()};$("#rulesClose")?.addEventListener("click",closeRules);
+ <section class="card rules-card"><h3>${t("round1Title")}</h3><p>${t("r1rules")}</p></section>
+ <section class="card rules-card"><h3>${t("round2Title")}</h3><p>${t("r2rules")}</p></section>
+ <section class="card rules-card"><h3>${t("round3Title")}</h3><p>${t("r3rules")}</p></section>
+ <section class="card rules-card"><h3>${t("rulesScoringTitle")}</h3><p>${t("rulesScoringText")}</p></section>
+ <section class="card rules-card"><h3>${t("rulesTieTitle")}</h3><p>${t("rulesTieText")}</p></section>
+ <button class="btn primary" id="rulesContinue">${t("closeRules")}</button></main>`;
+ const back=()=>{if(S.rulesReturn==="quickRules"){S.screen="quickRules";persist();render()}else closeRules()};
+ $("#rulesContinue").onclick=back;$("#rulesClose").onclick=back;
 }
 function home(){
  const has=!!S.resumeScreen;
@@ -145,7 +165,7 @@ function ready(){
 async function startGame(){
  S.turns=1;
  if(S.mode==="random"){
-  try{const res=await fetch(`data/words-${getLang()}.json?v=v14.3-combined`);let words=await res.json();words=words.filter(w=>S.selectedCats.includes(w.category)&&(S.difficulty==="mixed"||w.difficulty===S.difficulty));if(words.length<S.wordsCount)alert(`${t("onlyWordsAvailable")}: ${words.length}`);S.gameWords=words.sort(()=>Math.random()-.5).slice(0,S.wordsCount).map(w=>({...w,authorId:null}));}catch(err){alert(t("dictionaryError"));return}
+  try{const res=await fetch(`data/words-${getLang()}.json?v=v14.4-combined`);let words=await res.json();words=words.filter(w=>S.selectedCats.includes(w.category)&&(S.difficulty==="mixed"||w.difficulty===S.difficulty));if(words.length<S.wordsCount)alert(`${t("onlyWordsAvailable")}: ${words.length}`);S.gameWords=words.sort(()=>Math.random()-.5).slice(0,S.wordsCount).map(w=>({...w,authorId:null}));}catch(err){alert(t("dictionaryError"));return}
  }
  S.roundPool=[...S.gameWords];S.round=1;S.guesses={1:{},2:{},3:{}};S.teams.forEach(x=>{x.score=0;x.roundScore=0});S.screen="roundIntro";persist();render();
 }

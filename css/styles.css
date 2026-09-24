@@ -115,3 +115,8 @@ button{color:var(--ink);-webkit-tap-highlight-color:transparent}
   .team-option{min-height:116px;padding:14px}
   .difficulty-option{min-height:78px;padding:12px 8px}
 }
+
+#doneWords:disabled{opacity:.45;pointer-events:none}
+.field #pw{min-height:58px}
+
+.language-first .hero{margin-top:10vh}.language-choices{display:grid;gap:14px;margin-top:28px}.language-choice{font-size:1.15rem}.mode-choice{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:14px;width:100%}

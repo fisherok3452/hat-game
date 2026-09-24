@@ -1,7 +1,7 @@
-import {t,getLang,setLang} from "./i18n.js?v=v14.5-combined";
-import {categories,categoryNames,teamNames} from "./data.js?v=v14.5-combined";
-import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=v14.5-combined";
-import {save,load,clear} from "./storage.js?v=v14.5-combined";
+import {t,getLang,setLang} from "./i18n.js?v=v14.6-combined";
+import {categories,categoryNames,teamNames} from "./data.js?v=v14.6-combined";
+import {recommendedWords,buildTurnOrder,pickCard,markGuess,unmarkGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=v14.6-combined";
+import {save,load,clear} from "./storage.js?v=v14.6-combined";
 
 const app=document.querySelector("#app");
 const $=(selector)=>document.querySelector(selector);
@@ -160,7 +160,7 @@ function ready(){
 async function startGame(){
  S.turns=1;
  if(S.mode==="random"){
-  try{const res=await fetch(`data/words-${getLang()}.json?v=v14.5-combined`);let words=await res.json();words=words.filter(w=>S.selectedCats.includes(w.category)&&(S.difficulty==="mixed"||w.difficulty===S.difficulty));if(words.length<S.wordsCount)alert(`${t("onlyWordsAvailable")}: ${words.length}`);S.gameWords=words.sort(()=>Math.random()-.5).slice(0,S.wordsCount).map(w=>({...w,authorId:null}));}catch(err){alert(t("dictionaryError"));return}
+  try{const res=await fetch(`data/words-${getLang()}.json?v=v14.6-combined`);let words=await res.json();words=words.filter(w=>S.selectedCats.includes(w.category)&&(S.difficulty==="mixed"||w.difficulty===S.difficulty));if(words.length<S.wordsCount)alert(`${t("onlyWordsAvailable")}: ${words.length}`);S.gameWords=words.sort(()=>Math.random()-.5).slice(0,S.wordsCount).map(w=>({...w,authorId:null}));}catch(err){alert(t("dictionaryError"));return}
  }
  S.roundPool=[...S.gameWords];S.round=1;S.guesses={1:{},2:{},3:{}};S.teams.forEach(x=>{x.score=0;x.roundScore=0});S.screen="roundIntro";persist();render();
 }
@@ -213,12 +213,27 @@ function resolveLastCard(ok){
 function emptyTurn(){S.emptyEnded=true;finishTurn()}
 function finishTurn(){clearInterval(timer);S.currentCard=null;S.lastChance=false;S.screen="turnResult";persist();render()}
 function turnResult(){
- const x=currentTurn(),team=S.teams[x.teamIndex],last=S.turnIndex>=S.turnOrder.length-1||allCardsExhausted(S);
+ const x=currentTurn(),team=S.teams[x.teamIndex];
  const guessedCards=(S.turnGuessedIds||[]).map(id=>S.roundPool.find(c=>c.id===id)).filter(Boolean);
- shell(`<div class="center"><h1>${S.emptyEnded?t("emptyHat"):t("time")}</h1>${S.emptyEnded?`<p class="muted">${t("emptyText")}</p>`:""}<div class="team-title">${team.emoji} ${team.name}</div><p>${t("earned")}</p><div class="score-big">+${S.turnCorrect}</div><p>${t("guessed")}: ${S.turnCorrect} \u00B7 ${t("skipped")}: ${S.turnSkipped}</p></div>
- ${guessedCards.length?`<div class="card guessed-list"><h3>${t("guessedWords")}</h3>${guessedCards.map((c,i)=>`<div class="guessed-word"><span>${i+1}.</span><strong>${c.word}</strong></div>`).join("")}</div>`:`<div class="card center muted">${t("noGuessedWords")}</div>`}
- <div class="card">${S.teams.map(q=>`<div class="summary"><span>${q.emoji} ${q.name}</span><strong>${q.score}</strong></div>`).join("")}</div><button class="btn primary" id="next">${last?t("finishRound"):t("nextTurn")}</button>`);
- S.emptyEnded=false;$("#next").onclick=()=>{if(last)endRound();else{S.turnIndex++;go("preTurn")}};
+ const last=()=>S.turnIndex>=S.turnOrder.length-1||allCardsExhausted(S);
+ shell(`<div class="center"><h1>${S.emptyEnded?t("emptyHat"):t("time")}</h1>${S.emptyEnded?`<p class="muted">${t("emptyText")}</p>`:""}<div class="team-title">${team.emoji} ${team.name}</div><p>${t("earned")}</p><div class="score-big" id="turnEarned">+${S.turnCorrect}</div><p><span id="turnGuessedCount">${t("guessed")}: ${S.turnCorrect}</span> \u00B7 ${t("skipped")}: ${S.turnSkipped}</p></div>
+ ${guessedCards.length?`<div class="card guessed-list review-list"><h3>${t("reviewGuessed")}</h3><p class="small muted">${t("reviewHint")}</p>${guessedCards.map(c=>`<label class="review-word"><input type="checkbox" data-review-id="${c.id}" checked><span class="review-check">\u2713</span><strong>${c.word}</strong></label>`).join("")}</div>`:`<div class="card center muted">${t("noGuessedWords")}</div>`}
+ <div class="card" id="scoreSummary">${S.teams.map(q=>`<div class="summary"><span>${q.emoji} ${q.name}</span><strong data-score-team="${q.id}">${q.score}</strong></div>`).join("")}</div><button class="btn primary" id="next">${last()?t("finishRound"):t("nextTurn")}</button>`);
+ S.emptyEnded=false;
+ $$("[data-review-id]").forEach(cb=>cb.onchange=()=>{
+   const id=cb.dataset.reviewId;
+   if(cb.checked){
+     if(markGuess(S,id,x.teamIndex)){S.turnCorrect++;if(!S.turnGuessedIds.includes(id))S.turnGuessedIds.push(id)}
+   }else{
+     if(unmarkGuess(S,id,x.teamIndex)){S.turnCorrect=Math.max(0,S.turnCorrect-1);S.turnGuessedIds=S.turnGuessedIds.filter(v=>v!==id)}
+   }
+   $("#turnEarned").textContent=`+${S.turnCorrect}`;
+   $("#turnGuessedCount").textContent=`${t("guessed")}: ${S.turnCorrect}`;
+   const scoreEl=document.querySelector(`[data-score-team="${team.id}"]`);if(scoreEl)scoreEl.textContent=team.score;
+   $("#next").textContent=last()?t("finishRound"):t("nextTurn");
+   persist();
+ });
+ $("#next").onclick=()=>{if(last())endRound();else{S.turnIndex++;go("preTurn")}};
 }
 function endRound(){
  const unique=uniqueGuessed(S);

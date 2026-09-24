@@ -1,5 +1,5 @@
-export function recommendedWords(activePlayers, turns){
-  return Math.max(16, activePlayers * (8 + Math.max(0,turns-1)*4));
+export function recommendedWords(activePlayers, turns=1){
+  return Math.max(4, activePlayers * 12);
 }
 export function buildTurnOrder(teams, turns, startTeam=0){
   const order=[]; const max=Math.max(...teams.map(t=>t.players.filter(p=>!p.guessOnly).length));
@@ -14,26 +14,17 @@ export function buildTurnOrder(teams, turns, startTeam=0){
   }
   return order;
 }
-export function eligibleCards(state, teamIndex){
+export function eligibleCards(state,teamIndex,blockedAuthorIds=[]){
   const round=state.round;
-  const excludedByTeam = card => (state.guesses[round]?.[card.id]||[]).includes(teamIndex);
-
-  // Primary pool: cards not successfully guessed by ANY team yet.
-  const unresolved = state.roundPool.filter(card =>
-    (state.guesses[round]?.[card.id]||[]).length===0 && !excludedByTeam(card)
-  );
-  if(unresolved.length) return unresolved;
-
-  // Replay pool is used only after the primary pool is exhausted:
-  // cards guessed by another team but not yet by the current team.
-  return state.roundPool.filter(card =>
-    (state.guesses[round]?.[card.id]||[]).length>0 && !excludedByTeam(card)
-  );
+  return state.roundPool.filter(card=>(state.guesses[round]?.[card.id]||[]).length===0 && !blockedAuthorIds.includes(card.authorId));
 }
-export function pickCard(state, teamIndex, excluded=[]){
-  const cards=eligibleCards(state,teamIndex).filter(c=>!excluded.includes(c.id));
-  if(!cards.length) return null;
-  return cards[Math.floor(Math.random()*cards.length)];
+export function pickCard(state,teamIndex,excluded=[],blockedAuthorIds=[]){
+  const strict=eligibleCards(state,teamIndex,blockedAuthorIds).filter(c=>!excluded.includes(c.id));
+  if(strict.length) return strict[Math.floor(Math.random()*strict.length)];
+  const round=state.round;
+  const fallback=state.roundPool.filter(card=>(state.guesses[round]?.[card.id]||[]).length===0 && !excluded.includes(card.id));
+  if(!fallback.length) return null;
+  return fallback[Math.floor(Math.random()*fallback.length)];
 }
 export function markGuess(state,cardId,teamIndex){
   const r=state.round;state.guesses[r]??={};state.guesses[r][cardId]??=[];

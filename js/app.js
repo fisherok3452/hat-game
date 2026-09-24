@@ -1,7 +1,7 @@
-import {t,getLang,setLang} from "./i18n.js?v=v14.1-combined";
-import {categories,categoryNames,teamNames} from "./data.js?v=v14.1-combined";
-import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=v14.1-combined";
-import {save,load,clear} from "./storage.js?v=v14.1-combined";
+import {t,getLang,setLang} from "./i18n.js?v=v14.2-combined";
+import {categories,categoryNames,teamNames} from "./data.js?v=v14.2-combined";
+import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=v14.2-combined";
+import {save,load,clear} from "./storage.js?v=v14.2-combined";
 
 const app=document.querySelector("#app");
 const $=(selector)=>document.querySelector(selector);
@@ -122,7 +122,7 @@ function ready(){
 async function startGame(){
  S.turns=1;
  if(S.mode==="random"){
-  try{const res=await fetch(`data/words-${getLang()}.json?v=v14.1-combined`);let words=await res.json();words=words.filter(w=>S.selectedCats.includes(w.category)&&(S.difficulty==="mixed"||w.difficulty===S.difficulty));if(words.length<S.wordsCount)alert(`${t("onlyWordsAvailable")}: ${words.length}`);S.gameWords=words.sort(()=>Math.random()-.5).slice(0,S.wordsCount).map(w=>({...w,authorId:null}));}catch(err){alert(t("dictionaryError"));return}
+  try{const res=await fetch(`data/words-${getLang()}.json?v=v14.2-combined`);let words=await res.json();words=words.filter(w=>S.selectedCats.includes(w.category)&&(S.difficulty==="mixed"||w.difficulty===S.difficulty));if(words.length<S.wordsCount)alert(`${t("onlyWordsAvailable")}: ${words.length}`);S.gameWords=words.sort(()=>Math.random()-.5).slice(0,S.wordsCount).map(w=>({...w,authorId:null}));}catch(err){alert(t("dictionaryError"));return}
  }
  S.roundPool=[...S.gameWords];S.round=1;S.guesses={1:{},2:{},3:{}};S.teams.forEach(x=>{x.score=0;x.roundScore=0});S.screen="roundIntro";persist();render();
 }

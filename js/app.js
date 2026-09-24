@@ -1,7 +1,7 @@
-import {t,getLang,setLang} from "./i18n.js?v=v14.2-combined";
-import {categories,categoryNames,teamNames} from "./data.js?v=v14.2-combined";
-import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=v14.2-combined";
-import {save,load,clear} from "./storage.js?v=v14.2-combined";
+import {t,getLang,setLang} from "./i18n.js?v=v14.3-combined";
+import {categories,categoryNames,teamNames} from "./data.js?v=v14.3-combined";
+import {recommendedWords,buildTurnOrder,pickCard,markGuess,uniqueGuessed,allCardsExhausted} from "./game.js?v=v14.3-combined";
+import {save,load,clear} from "./storage.js?v=v14.3-combined";
 
 const app=document.querySelector("#app");
 const $=(selector)=>document.querySelector(selector);
@@ -36,11 +36,34 @@ function openSettings(){if(S.screen!=="settings")S.returnScreen=S.screen;S.scree
 function goBack(){const map={modeSelect:"home",players:"modeSelect",teams:"players",names:"teams",balance:"names",categories:"names",difficulty:"categories",gameSettings:S.mode==="random"?"difficulty":"names",wordPass:"gameSettings",wordEntry:"wordPass",ready:S.mode==="random"?"gameSettings":"wordEntry",roundIntro:"ready"};go(map[S.screen]||"home")}
 function render(){
   clearInterval(timer); timer=null;
-  ({languageSelect,home,modeSelect,settings,players,teams,names,balance,categories:categoriesScreen,difficulty,gameSettings,wordPass,wordEntry,ready,roundIntro,preTurn,play,lastChance,turnResult,roundResult,final,tiebreakIntro,tiebreakPreTurn,tiebreakPlay,tiebreakLastChance,tiebreakTurnResult,tiebreakResult}[S.screen]||home)();
+  ({languageSelect,rules,home,modeSelect,settings,players,teams,names,balance,categories:categoriesScreen,difficulty,gameSettings,wordPass,wordEntry,ready,roundIntro,preTurn,play,lastChance,turnResult,roundResult,final,tiebreakIntro,tiebreakPreTurn,tiebreakPlay,tiebreakLastChance,tiebreakTurnResult,tiebreakResult}[S.screen]||home)();
 }
 function languageSelect(){
  app.innerHTML=`<main class="shell language-first"><section class="hero"><div class="hat">\u{1F3A9}</div><h1>Choose language</h1></section><div class="language-choices">${[["en","English"],["uk","\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430"],["ru","\u0420\u0443\u0441\u0441\u043A\u0438\u0439"]].map(([k,v])=>`<button class="btn secondary language-choice" data-first-lang="${k}">${v}</button>`).join("")}</div></main>`;
- $$("[data-first-lang]").forEach(btn=>btn.onclick=()=>{setLang(btn.dataset.firstLang);localStorage.setItem("hat_language_chosen_v1","1");S.screen="home";persist();render()});
+ $$("[data-first-lang]").forEach(btn=>btn.onclick=()=>{setLang(btn.dataset.firstLang);localStorage.setItem("hat_language_chosen_v1","1");S.rulesReturn="home";S.screen="rules";persist();render()});
+}
+let rulesPause=null;
+function openRules(){
+ const timed=["play","lastChance","tiebreakPlay","tiebreakLastChance"].includes(S.screen);
+ rulesPause={screen:S.screen,remaining:timed&&typeof timeLeft==="number"?timeLeft:null};
+ if(timed&&typeof stopTimer==="function")stopTimer();
+ S.rulesReturn=S.screen;S.screen="rules";persist();render();
+}
+function closeRules(){
+ const back=S.rulesReturn||"home";const p=rulesPause;S.screen=back;persist();render();
+ if(p&&p.screen===back&&p.remaining!==null&&typeof timeLeft!=="undefined")timeLeft=p.remaining;
+ rulesPause=null;
+}
+function rules(){
+ const first=S.rulesReturn==="home"&&!localStorage.getItem("hat_rules_seen_v1");
+ app.innerHTML=`<main class="shell rules-page"><header class="top"><div class="brand">ð© ${t("app")}</div>${first?"":`<button class="icon" id="rulesClose">Ã</button>`}</header><h1>${t("rulesTitle")}</h1><p class="muted">${t("rulesIntro")}</p>
+ <section class="card rules-card"><h3>${t("rulesGoalTitle")}</h3><p>${t("rulesGoalText")}</p></section>
+ <section class="card rules-card"><h3>${t("rulesModesTitle")}</h3><p><strong>${t("ownWordsMode")}:</strong> ${t("rulesOwnText")}</p><p><strong>${t("randomWordsMode")}:</strong> ${t("rulesRandomText")}</p></section>
+ <section class="card rules-card"><h3>${t("rulesTurnsTitle")}</h3><p>${t("rulesTurnsText")}</p></section>
+ <section class="card rules-card"><h3>${t("round1")}</h3><p>${t("r1rules")}</p></section><section class="card rules-card"><h3>${t("round2")}</h3><p>${t("r2rules")}</p></section><section class="card rules-card"><h3>${t("round3")}</h3><p>${t("r3rules")}</p></section>
+ <section class="card rules-card"><h3>${t("rulesScoringTitle")}</h3><p>${t("rulesScoringText")}</p></section><section class="card rules-card"><h3>${t("rulesTieTitle")}</h3><p>${t("rulesTieText")}</p></section>
+ <button class="btn primary" id="rulesContinue">${first?t("continue"):t("back")}</button></main>`;
+ $("#rulesContinue").onclick=()=>{localStorage.setItem("hat_rules_seen_v1","1");closeRules()};$("#rulesClose")?.addEventListener("click",closeRules);
 }
 function home(){
  const has=!!S.resumeScreen;
@@ -50,8 +73,8 @@ function home(){
  $("#cont")?.addEventListener("click",()=>{const target=S.resumeScreen;delete S.resumeScreen;S.screen=target;persist();render()});
 }
 function modeSelect(){
- shell(`<h1>${t("chooseMode")}</h1><p class="muted">${t("chooseModeHint")}</p><button class="choice mode-choice" id="randomMode"><strong>\u{1F3B2} ${t("randomWordsMode")}</strong><span class="small muted">${t("randomWordsHint")}</span></button><button class="choice mode-choice" id="ownMode"><strong>\u270D\uFE0F ${t("ownWordsMode")}</strong><span class="small muted">${t("ownWordsHint")}</span></button>`,true);
- $("#randomMode").onclick=()=>{S.mode="random";go("players")};$("#ownMode").onclick=()=>{S.mode="own";go("players")};
+ shell(`<h1>${t("chooseMode")}</h1><p class="muted">${t("chooseModeHint")}</p><button class="choice mode-choice featured-mode" id="ownMode"><strong>\u270D\uFE0F ${t("ownWordsMode")}</strong><span class="small muted">${t("ownWordsHintFun")}</span></button><button class="choice mode-choice" id="randomMode"><strong>\u{1F3B2} ${t("randomWordsMode")}</strong><span class="small muted">${t("randomWordsHint")}</span></button>`,true);
+ $("#ownMode").onclick=()=>{S.mode="own";go("players")};$("#randomMode").onclick=()=>{S.mode="random";go("players")};
 }
 function settings(){
  shell(`<h1>${t("settings")}</h1><div class="card"><h3>${t("language")}</h3><div class="pill-row">${[["en","English"],["uk","\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430"],["ru","\u0420\u0443\u0441\u0441\u043A\u0438\u0439"]].map(([k,v])=>`<button class="pill ${getLang()==k?"selected":""}" data-l="${k}">${v}</button>`).join("")}</div></div><button class="btn secondary" id="done">${t("back")}</button>`,true);
@@ -122,7 +145,7 @@ function ready(){
 async function startGame(){
  S.turns=1;
  if(S.mode==="random"){
-  try{const res=await fetch(`data/words-${getLang()}.json?v=v14.2-combined`);let words=await res.json();words=words.filter(w=>S.selectedCats.includes(w.category)&&(S.difficulty==="mixed"||w.difficulty===S.difficulty));if(words.length<S.wordsCount)alert(`${t("onlyWordsAvailable")}: ${words.length}`);S.gameWords=words.sort(()=>Math.random()-.5).slice(0,S.wordsCount).map(w=>({...w,authorId:null}));}catch(err){alert(t("dictionaryError"));return}
+  try{const res=await fetch(`data/words-${getLang()}.json?v=v14.3-combined`);let words=await res.json();words=words.filter(w=>S.selectedCats.includes(w.category)&&(S.difficulty==="mixed"||w.difficulty===S.difficulty));if(words.length<S.wordsCount)alert(`${t("onlyWordsAvailable")}: ${words.length}`);S.gameWords=words.sort(()=>Math.random()-.5).slice(0,S.wordsCount).map(w=>({...w,authorId:null}));}catch(err){alert(t("dictionaryError"));return}
  }
  S.roundPool=[...S.gameWords];S.round=1;S.guesses={1:{},2:{},3:{}};S.teams.forEach(x=>{x.score=0;x.roundScore=0});S.screen="roundIntro";persist();render();
 }
